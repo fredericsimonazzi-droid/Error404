@@ -1,0 +1,434 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>404 — SIGNAL LOST</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=VT323&display=swap');
+
+  :root {
+    --red: #ff0033;
+    --cyan: #00ffea;
+    --green: #39ff14;
+    --bg: #050505;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: var(--bg);
+    color: var(--cyan);
+    font-family: 'Share Tech Mono', monospace;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    cursor: crosshair;
+  }
+
+  /* Scanlines */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background: repeating-linear-gradient(
+      0deg,
+      transparent,
+      transparent 2px,
+      rgba(0,0,0,0.15) 2px,
+      rgba(0,0,0,0.15) 4px
+    );
+    pointer-events: none;
+    z-index: 100;
+  }
+
+  /* Noise */
+  body::after {
+    content: '';
+    position: fixed;
+    inset: -50%;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+    pointer-events: none;
+    z-index: 99;
+    animation: noise 0.2s steps(1) infinite;
+    opacity: 0.3;
+  }
+
+  @keyframes noise {
+    0%   { transform: translate(0,0); }
+    10%  { transform: translate(-2%,-3%); }
+    20%  { transform: translate(-4%,2%); }
+    30%  { transform: translate(3%,-1%); }
+    40%  { transform: translate(1%,4%); }
+    50%  { transform: translate(-3%,2%); }
+    60%  { transform: translate(4%,1%); }
+    70%  { transform: translate(2%,-4%); }
+    80%  { transform: translate(-1%,3%); }
+    90%  { transform: translate(3%,-2%); }
+    100% { transform: translate(-2%,1%); }
+  }
+
+  .container {
+    position: relative;
+    text-align: center;
+    z-index: 10;
+    padding: 2rem;
+    max-width: 700px;
+    width: 100%;
+  }
+
+  /* Big 404 */
+  .error-code {
+    font-family: 'VT323', monospace;
+    font-size: clamp(120px, 22vw, 220px);
+    line-height: 0.9;
+    color: var(--red);
+    position: relative;
+    display: inline-block;
+    animation: glitch-main 3s infinite;
+    text-shadow: 0 0 20px rgba(255,0,51,0.5);
+    letter-spacing: -5px;
+  }
+
+  .error-code::before {
+    content: '404';
+    position: absolute;
+    left: 3px;
+    top: 0;
+    color: var(--cyan);
+    clip-path: polygon(0 30%, 100% 30%, 100% 50%, 0 50%);
+    animation: glitch-1 2.5s infinite;
+    opacity: 0.8;
+  }
+
+  .error-code::after {
+    content: '404';
+    position: absolute;
+    left: -3px;
+    top: 0;
+    color: var(--green);
+    clip-path: polygon(0 60%, 100% 60%, 100% 80%, 0 80%);
+    animation: glitch-2 2s infinite;
+    opacity: 0.8;
+  }
+
+  @keyframes glitch-main {
+    0%, 90%, 100% { transform: skewX(0); }
+    92% { transform: skewX(-3deg); }
+    94% { transform: skewX(3deg); }
+    96% { transform: skewX(-1deg); }
+  }
+
+  @keyframes glitch-1 {
+    0%, 85%, 100% { transform: translateX(0); opacity: 0; }
+    87% { transform: translateX(-6px); opacity: 0.8; }
+    89% { transform: translateX(6px); opacity: 0.8; }
+    91% { transform: translateX(0); opacity: 0; }
+  }
+
+  @keyframes glitch-2 {
+    0%, 80%, 100% { transform: translateX(0); opacity: 0; }
+    82% { transform: translateX(6px); opacity: 0.8; }
+    84% { transform: translateX(-4px); opacity: 0.8; }
+    86% { transform: translateX(0); opacity: 0; }
+  }
+
+  .subtitle {
+    font-family: 'VT323', monospace;
+    font-size: clamp(18px, 4vw, 28px);
+    color: var(--red);
+    letter-spacing: 8px;
+    margin: 0.5rem 0 1.5rem;
+    animation: flicker 4s infinite;
+    text-transform: uppercase;
+  }
+
+  @keyframes flicker {
+    0%, 95%, 100% { opacity: 1; }
+    96% { opacity: 0; }
+    97% { opacity: 1; }
+    98% { opacity: 0.4; }
+    99% { opacity: 1; }
+  }
+
+  .divider {
+    width: 100%;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--cyan), transparent);
+    margin: 1.5rem 0;
+    animation: pulse-line 2s ease-in-out infinite;
+  }
+
+  @keyframes pulse-line {
+    0%, 100% { opacity: 0.3; }
+    50% { opacity: 1; }
+  }
+
+  .log {
+    font-size: 11px;
+    color: rgba(0,255,234,0.4);
+    text-align: left;
+    margin-bottom: 1.5rem;
+    line-height: 1.8;
+    animation: type-log 0.1s steps(1) infinite;
+  }
+
+  .log span { display: block; }
+  .log .blink { animation: blink-cursor 1s step-end infinite; }
+  @keyframes blink-cursor { 50% { opacity: 0; } }
+
+  /* Contract input zone */
+  .contract-zone {
+    position: relative;
+    margin: 1.5rem 0;
+    border: 1px solid rgba(57,255,20,0.3);
+    padding: 1px;
+    background: transparent;
+  }
+
+  .contract-zone::before {
+    content: '[ CONTRACT_ADDRESS ]';
+    position: absolute;
+    top: -10px;
+    left: 10px;
+    font-size: 10px;
+    background: var(--bg);
+    padding: 0 5px;
+    color: var(--green);
+    letter-spacing: 3px;
+  }
+
+  .contract-zone::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    box-shadow: 0 0 15px rgba(57,255,20,0.1) inset;
+    pointer-events: none;
+  }
+
+  .contract-input {
+    width: 100%;
+    background: rgba(57,255,20,0.03);
+    border: none;
+    outline: none;
+    color: var(--green);
+    font-family: 'Share Tech Mono', monospace;
+    font-size: clamp(10px, 2vw, 13px);
+    padding: 14px 16px;
+    letter-spacing: 2px;
+    text-align: center;
+    caret-color: var(--green);
+  }
+
+  .contract-input::placeholder {
+    color: rgba(57,255,20,0.25);
+    letter-spacing: 1px;
+  }
+
+  .contract-input:focus {
+    background: rgba(57,255,20,0.06);
+  }
+
+  /* Copy btn */
+  .copy-btn {
+    display: block;
+    width: 100%;
+    margin-top: 1px;
+    padding: 8px;
+    background: transparent;
+    border: none;
+    color: rgba(57,255,20,0.4);
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 4px;
+    cursor: pointer;
+    transition: all 0.2s;
+    text-transform: uppercase;
+  }
+
+  .copy-btn:hover {
+    color: var(--green);
+    text-shadow: 0 0 8px var(--green);
+  }
+
+  /* Telegram link */
+  .tg-link {
+    display: inline-block;
+    margin-top: 1.5rem;
+    padding: 14px 30px;
+    border: 1px solid var(--red);
+    color: var(--red);
+    text-decoration: none;
+    font-family: 'VT323', monospace;
+    font-size: 22px;
+    letter-spacing: 6px;
+    position: relative;
+    text-transform: uppercase;
+    transition: all 0.1s;
+    animation: border-flicker 5s infinite;
+  }
+
+  .tg-link::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: var(--red);
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.2s ease;
+    z-index: -1;
+  }
+
+  .tg-link:hover {
+    color: var(--bg);
+    text-shadow: none;
+  }
+
+  .tg-link:hover::before {
+    transform: scaleX(1);
+  }
+
+  @keyframes border-flicker {
+    0%, 89%, 91%, 93%, 100% { box-shadow: 0 0 8px rgba(255,0,51,0.3); }
+    90% { box-shadow: none; border-color: transparent; }
+    92% { box-shadow: 0 0 20px rgba(255,0,51,0.8); }
+  }
+
+  .tg-link::after {
+    content: '▶';
+    margin-left: 10px;
+    animation: blink-cursor 0.8s infinite;
+  }
+
+  .coords {
+    font-size: 9px;
+    color: rgba(0,255,234,0.2);
+    letter-spacing: 3px;
+    margin-top: 2rem;
+    animation: shift-coords 6s linear infinite;
+  }
+
+  @keyframes shift-coords {
+    0% { opacity: 0.2; }
+    50% { opacity: 0.5; }
+    100% { opacity: 0.2; }
+  }
+
+  /* Random glitch lines */
+  .glitch-line {
+    position: fixed;
+    height: 2px;
+    background: var(--cyan);
+    opacity: 0;
+    animation: sweep 8s infinite;
+    pointer-events: none;
+    z-index: 50;
+  }
+
+  .glitch-line:nth-child(1) { width: 80%; left: 10%; top: 23%; animation-delay: 0s; }
+  .glitch-line:nth-child(2) { width: 40%; left: 30%; top: 67%; animation-delay: 2.5s; background: var(--red); }
+  .glitch-line:nth-child(3) { width: 60%; left: 20%; top: 45%; animation-delay: 5s; background: var(--green); }
+
+  @keyframes sweep {
+    0%, 88%, 100% { opacity: 0; }
+    90% { opacity: 0.6; transform: translateX(-5px); }
+    92% { opacity: 0; }
+    94% { opacity: 0.3; transform: translateX(3px); }
+    96% { opacity: 0; }
+  }
+
+  /* Corner decorations */
+  .corner {
+    position: fixed;
+    width: 20px;
+    height: 20px;
+    opacity: 0.4;
+  }
+  .corner-tl { top: 20px; left: 20px; border-top: 1px solid var(--cyan); border-left: 1px solid var(--cyan); }
+  .corner-tr { top: 20px; right: 20px; border-top: 1px solid var(--cyan); border-right: 1px solid var(--cyan); }
+  .corner-bl { bottom: 20px; left: 20px; border-bottom: 1px solid var(--cyan); border-left: 1px solid var(--cyan); }
+  .corner-br { bottom: 20px; right: 20px; border-bottom: 1px solid var(--cyan); border-right: 1px solid var(--cyan); }
+</style>
+</head>
+<body>
+
+<div class="glitch-line"></div>
+<div class="glitch-line"></div>
+<div class="glitch-line"></div>
+
+<div class="corner corner-tl"></div>
+<div class="corner corner-tr"></div>
+<div class="corner corner-bl"></div>
+<div class="corner corner-br"></div>
+
+<div class="container">
+  <div class="error-code">404</div>
+  <div class="subtitle">signal lost</div>
+
+  <div class="divider"></div>
+
+  <div class="log">
+    <span>&gt; PROCESS TERMINATED — reason: unknown</span>
+    <span>&gt; attempting reconnect... <span style="color:var(--red)">FAILED</span></span>
+    <span>&gt; memory fragment detected at 0x??FF</span>
+    <span>&gt; origin: <span style="color:var(--green)">█████████████████</span></span>
+    <span>&gt; awaiting input...<span class="blink">_</span></span>
+  </div>
+
+  <div class="divider"></div>
+
+  <div class="contract-zone">
+    <input
+      class="contract-input"
+      id="ca"
+      type="text"
+      placeholder="0x????????????????????????????????????????????????"
+      maxlength="44"
+      autocomplete="off"
+      spellcheck="false"
+    />
+    <button class="copy-btn" onclick="copyCA()">⟨ copy ⟩</button>
+  </div>
+
+  <a class="tg-link" href="https://t.me/solwaitingroom" target="_blank" rel="noopener">
+    enter the waiting room
+  </a>
+
+  <div class="coords" id="coords">LAT: ---.---- // LON: ---.---- // Z: ----</div>
+</div>
+
+<script>
+  // Animate fake coords
+  function randCoord(n, d) {
+    return (Math.random() * n - n/2).toFixed(d);
+  }
+  setInterval(() => {
+    document.getElementById('coords').textContent =
+      `LAT: ${randCoord(180,4)} // LON: ${randCoord(360,4)} // Z: ${Math.floor(Math.random()*9999).toString().padStart(4,'0')}`;
+  }, 2000);
+
+  // Copy CA
+  function copyCA() {
+    const val = document.getElementById('ca').value.trim();
+    if (!val) return;
+    navigator.clipboard.writeText(val).then(() => {
+      const btn = document.querySelector('.copy-btn');
+      const orig = btn.textContent;
+      btn.textContent = '⟨ copied ⟩';
+      setTimeout(() => btn.textContent = orig, 1500);
+    });
+  }
+
+  // Random page shake on click
+  document.body.addEventListener('click', (e) => {
+    if (Math.random() > 0.6) {
+      document.body.style.transform = `translate(${(Math.random()-0.5)*4}px, ${(Math.random()-0.5)*4}px)`;
+      setTimeout(() => document.body.style.transform = '', 80);
+    }
+  });
+</script>
+</body>
+</html>
